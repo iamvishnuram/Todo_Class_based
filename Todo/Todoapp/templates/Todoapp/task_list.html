@@ -1,0 +1,76 @@
+{% extends 'Todoapp/base.html' %}
+{% load widget_tweaks %}
+{% block body %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mx-auto col-lg-5">
+            <br><br>
+            <form action="" method="get">
+                <div class="col-md-12 text-center">
+                    <input type="search" class="form-control" name="search-area" value={{search_input}}>
+                    <input type="submit" style="margin-top:10px;" class="btn btn-success" value="search">
+                </div>
+            </form>
+            <br><br>
+            <h4 class="text-center">-Create New Task-</h4><br>
+            <div class="col-md-12 text-center">
+                <a href="{% url 'create' %}"><button class="btn btn-success">Create</button></a>
+            </div>
+<br><br>
+
+            <h4 class="text-center">-Tasks to be Completed-</h4><br>
+            
+            {% for i in tasks %}
+            <div class="card " style="width: 33rem;">
+                <div class="card-body">
+                  <h5 class="card-text">Title: {{i.title}}</h5>
+                  <h5 class="card-title">Desscription: {{i.description}}</h5>
+                  <h5 class="card-text">Created: {{i.create}}</h5>
+                  <a href="{% url 'delete' i.id %}" class="btn btn-danger">Done</a>
+                  <a href="{% url 'update' i.id %}" class="btn btn-success">Update</a>
+                </div>
+              </div>
+              <br>
+            {% endfor %}
+            <div class="col-md-12 text-center">
+                {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}"><button class="btn btn-danger">Logout</button></a>
+            {% endif %}
+            </div>
+            </div>
+        </div>
+    </div>  
+</div>
+
+    
+{% endblock body %}
+
+<!--{% if user.is_authenticated %}
+<p>{{request.user}}</p>
+<a href="{% url 'logout' %}">Logout</a>
+{% else %}
+<a href="{% url 'login' %}">Login</a>
+{% endif %}
+
+<hr>
+<h1>My Todo Lists</h1>
+<a href="{% url 'create' %}">Add Task</a>
+
+<table>
+    <tr>
+        <th><h2>Item</h2></th>
+    </tr>
+    {% for i in tasks %}
+    <tr>
+        <td>{{i.title}}</td>
+        <td><a href="{% url 'details' i.id %}">View</a></td>
+        <td><a href="{% url 'update' i.id %}">Edit</a></td>
+        <td><a href="{% url 'delete' i.id %}">Delete</a></td>
+    </tr>
+    {% empty %}
+    <h3>No items in List</h3>
+    {% endfor %}
+    
+</table>
